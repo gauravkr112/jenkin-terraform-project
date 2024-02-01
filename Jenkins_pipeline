@@ -14,7 +14,7 @@ stages {
          script{
             directory("terraform")
             {
-              git "(repo URL)"
+              git "https://github.com/gauravkr112/jenkin-terraform-project.git"
             }
           }
          }
