@@ -1,6 +1,6 @@
 pipeline {
 
-parameters {
+  parameters {
    booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
   }
 environment {
@@ -11,7 +11,7 @@ agent any
 stages {
    stage('checkout') {
       steps {
-         script{
+         script {
             directory("terraform")
             {
               git "https://github.com/gauravkr112/jenkin-terraform-project.git"
@@ -19,7 +19,6 @@ stages {
           }
          }
        }
-     }
 stage('Plan') {
    steps {
     sh 'pwd;cd terraform/ ; terraform init'
@@ -27,7 +26,7 @@ stage('Plan') {
     sh "pwd;cd terraform/ ; terraform show -no-color tfplan >tfplan.txt"
     }
   }
-stage('Approval')
+stage('Approval') {
   when {
      not {
          equals expected: true, actual: params.autoApprove
@@ -41,10 +40,12 @@ stage('Approval')
          }
         }
       }
-stage('Apply')
+stage('Apply') {
    steps {
       sh "pwd; cd terraform/ ; terraform apply -input-false tfplan"
      }
    }
+}
+}
  
  
